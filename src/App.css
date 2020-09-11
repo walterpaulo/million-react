@@ -2,6 +2,27 @@
   text-align: center;
 }
 
+.flex-aula-react{
+  display: flex;
+}
+
+.alinhamento-esquerda{
+  text-align: left;
+}
+
+.alinhamento-esquerda h1{
+  text-align: center;
+}
+.alinhamento-esquerda button{
+  margin-bottom: 10px;
+}
+
+.btn-default{
+  border: 1px solid #ccc;
+  margin-left: 10px;
+  margin-top: -10px;
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;
