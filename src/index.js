@@ -5,8 +5,8 @@ import './index.css';
 import App from './views/App';
 import Componentes from './views/Componentes';
 import Acoes from './views/Acoes';
-import AcaoNovo from './views/AcaoNovo';
 import * as serviceWorker from './serviceWorker';
+import AcaoForm from './views/AcaoForm';
 
 ReactDOM.render(
   <BrowserRouter>
@@ -14,7 +14,8 @@ ReactDOM.render(
         <Route path="/" exact={true} component={App} />
         <Route path="/componentes" exact={true} component={Componentes} />
         <Route path="/acoes" exact={true} component={Acoes} />
-        <Route path="/acoes/novo" exact={true} component={AcaoNovo} />
+        <Route path="/acoes/novo" exact={true} component={AcaoForm} />
+        <Route path="/acoes/:id/editar" exact={true} component={AcaoForm} />
     </Switch>
   </ BrowserRouter>,
   document.getElementById('root')

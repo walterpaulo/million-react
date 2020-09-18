@@ -6,7 +6,7 @@ import Sidebar from './shared/Sidebar';
 import { Link } from 'react-router-dom'
 import axios from 'axios';
 
-class AcaoNovo extends Component{
+class AcaoForm extends Component{
 
   state = {
     acao: {
@@ -18,6 +18,22 @@ class AcaoNovo extends Component{
     erro: undefined
   }
 
+  componentDidMount(){
+    let id = this.props.match.params.id
+    if(id) this.getAcao(id)
+  }
+  
+  getAcao = (id) => {
+    axios.get(`http://localhost:3000/acoes/${id}.json`, {
+      headers: {'token': '123456'}
+    }).then((resp) => {
+      this.setState({acao: resp.data})
+    })
+    .catch((err) => {
+      this.setState({erro: JSON.stringify(err)})
+    })
+  } 
+
   onChange = (e) => {
     let acao = this.state.acao
     acao[e.target.name] = e.target.value
@@ -25,14 +41,26 @@ class AcaoNovo extends Component{
   }
 
   salvar = () => {
-    axios.post('http://localhost:3000/acoes.json', this.state.acao, {
-      headers: {'token': '123456'}
-    }).then(() => {
-      this.props.history.push('/acoes');
-    })
-    .catch((err) => {
-      this.setState({erro: JSON.stringify(err)})
-    })
+    if(!this.state.acao._id || this.state.acao._id === ""){
+      axios.post('http://localhost:3000/acoes.json', this.state.acao, {
+        headers: {'token': '123456'}
+      }).then(() => {
+        this.props.history.push('/acoes');
+      })
+      .catch((err) => {
+        this.setState({erro: JSON.stringify(err)})
+      })
+    }
+    else{
+      axios.put(`http://localhost:3000/acoes/${this.state.acao._id}.json`, this.state.acao, {
+        headers: {'token': '123456'}
+      }).then(() => {
+        this.props.history.push('/acoes');
+      })
+      .catch((err) => {
+        this.setState({erro: JSON.stringify(err)})
+      })
+    }
   }
 
   render(){
@@ -81,4 +109,4 @@ class AcaoNovo extends Component{
   }
 }
 
-export default AcaoNovo;
+export default AcaoForm;

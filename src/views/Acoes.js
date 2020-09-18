@@ -19,6 +19,21 @@ class Acoes extends Component{
     this.props.history.push("/acoes/novo")
   }
 
+  excluir = (acao) => {
+    if(window.confirm("Confirma exclusão?")){
+      axios.create({
+        baseURL: `http://localhost:3000/acoes/${acao._id}.json`,
+        headers: {'token': '123456'}
+      }).delete().then((res) => {
+        this.lista()
+      })
+    }
+  }
+
+  alterar = (acao) => {
+    this.props.history.push(`/acoes/${acao._id}/editar`)
+  }
+
   lista = () => {
     axios.create({
       baseURL: 'http://localhost:3000/acoes.json',
@@ -46,6 +61,8 @@ class Acoes extends Component{
                       <th scope="col">Empresa</th>
                       <th scope="col">Taxa</th>
                       <th scope="col">Tipo</th>
+                      <th scope="col"></th>
+                      <th scope="col"></th>
                     </tr>
                   </thead>
                   <tbody>
@@ -56,6 +73,12 @@ class Acoes extends Component{
                           <td>{acao.nome_empresa}</td>
                           <td>{acao.taxa_juros}</td>
                           <td>{acao.tipo}</td>
+                          <td>
+                            <button onClick={() => { this.alterar(acao) }} className="btn btn-warning">Editar</button>
+                          </td>
+                          <td>
+                            <button onClick={() => { this.excluir(acao) }} className="btn btn-danger">Excluir</button>
+                          </td>
                         </tr>
                        ))
                     }
