@@ -1,49 +1,42 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import '../App.css';
 import Header from './shared/Header';
 import Footer from './shared/Footer';
 import Sidebar from './shared/Sidebar';
-import axios from 'axios';
+import {useHistory} from 'react-router-dom';
+import api from '../services/api';
 
-class Acoes extends Component{
+const Acoes = () => {
+  const navigation = useHistory()
+  const [acoes, setAcoes] = useState([])
+  //acoes[0] //variavel
+  //acoes[1] // funcao altera valor variavel
+  const lista = useCallback(() => {
+   api.get('acoes.json').then((res) => {
+      setAcoes(res.data)
+    })
+  }, [])
+  useEffect(() => {
+    lista()
+  }, [lista])
 
-  state = {
-    acoes: []
-  }
+  const novo = useCallback(() => {
+    navigation.push("/acoes/novo")
+  }, [navigation])
 
-  componentDidMount(){
-    this.lista()
-  }
-
-  novo = () => {
-    this.props.history.push("/acoes/novo")
-  }
-
-  excluir = (acao) => {
+  const excluir = useCallback((acao) => {
     if(window.confirm("Confirma exclusão?")){
-      axios.create({
-        baseURL: `http://localhost:3000/acoes/${acao._id}.json`,
-        headers: {'token': '123456'}
-      }).delete().then((res) => {
-        this.lista()
+      api.delete(`/acoes/${acao._id}.json`).then((_) => {
+        lista()
       })
     }
-  }
+  }, [lista])
 
-  alterar = (acao) => {
-    this.props.history.push(`/acoes/${acao._id}/editar`)
-  }
+  const alterar = useCallback((acao) => {
+    navigation.push(`/acoes/${acao._id}/editar`)
+  }, [navigation])
 
-  lista = () => {
-    axios.create({
-      baseURL: 'http://localhost:3000/acoes.json',
-      headers: {'token': '123456'}
-    }).get().then((res) => {
-      this.setState({ acoes: res.data });
-    })
-  }
 
-  render(){
     return (
       <div>
         <div className="App" id="wrapper">
@@ -53,7 +46,7 @@ class Acoes extends Component{
               <Header></Header>
               <div className="container-fluid alinhamento-esquerda">
                 <h1>Ações Million</h1>
-                <button onClick={this.novo} className="btn btn-primary">Novo</button>
+                <button onClick={novo} className="btn btn-primary">Novo</button>
                 <table className="table">
                   <thead>
                     <tr>
@@ -67,17 +60,17 @@ class Acoes extends Component{
                   </thead>
                   <tbody>
                     {
-                      this.state.acoes.map((acao, index) => (
+                      acoes.map((acao, index) => (
                         <tr key={index}>
                           <td>{acao.cod_empresa}</td>
                           <td>{acao.nome_empresa}</td>
                           <td>{acao.taxa_juros}</td>
                           <td>{acao.tipo}</td>
                           <td>
-                            <button onClick={() => { this.alterar(acao) }} className="btn btn-warning">Editar</button>
+                            <button onClick={() => { alterar(acao) }} className="btn btn-warning">Editar</button>
                           </td>
                           <td>
-                            <button onClick={() => { this.excluir(acao) }} className="btn btn-danger">Excluir</button>
+                            <button onClick={() => { excluir(acao) }} className="btn btn-danger">Excluir</button>
                           </td>
                         </tr>
                        ))
@@ -91,7 +84,6 @@ class Acoes extends Component{
         <Footer></Footer>
       </div>
     );
-  }
 }
 
 export default Acoes;
