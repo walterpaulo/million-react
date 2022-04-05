@@ -3,39 +3,32 @@ import '../App.css';
 import Header from './shared/Header';
 import Footer from './shared/Footer';
 import Sidebar from './shared/Sidebar';
-import axios from 'axios';
 import { useHistory } from 'react-router-dom';
+import api from './services/api';
 
 const Acoes = ()=>{
-  const navigation = useHistory
+  const navigation = useHistory()
   const [acoes, setAcoes] = useState([])
   // acoes[0] variával
   // acoes[1] altera valor da variável
 
   const lista = useCallback(() => {
-    axios.create({
-      baseURL: 'http://localhost:3000/acoes.json',
-      headers: {'token': '123456'}
-    }).get().then((res) => {
+    api.get('acoes.json').then((res) => {
       setAcoes(res.data)
     })
   }, [])
 
   useEffect(() => {
     lista()
-  }, [])
+  }, [lista])
 
   const novo = useCallback(() => {
     navigation.push("/acoes/novo")
-    this.props.history.push("/acoes/novo")
   }, [navigation])
 
   const excluir = (acao) => {
     if(window.confirm("Confirma exclusão?")){
-      axios.create({
-        baseURL: `http://localhost:3000/acoes/${acao._id}.json`,
-        headers: {'token': '123456'}
-      }).delete().then((_) => {
+      api.delete(`/acoes/${acao._id}.json`).then((_) => {
         lista()
       })
     }
