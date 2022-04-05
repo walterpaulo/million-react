@@ -5,9 +5,9 @@ import Header from './shared/Header';
 import Footer from './shared/Footer';
 import Sidebar from './shared/Sidebar';
 
-class App extends Component{
+const App = () =>{
 
-  mostraMensagem = () =>{
+  const mostraMensagem = () =>{
     return (
       <div>
         <h4>dsdsds</h4>
@@ -16,20 +16,19 @@ class App extends Component{
     )
   }
 
-  render(){
     return (
       <div>
         <div className="App" id="wrapper">
           <Sidebar></Sidebar>
-          <div id="content-wrapper" class="d-flex flex-column">
+          <div id="content-wrapper" className="d-flex flex-column">
             <div id="content">
               <Header></Header>
-              <div class="container-fluid">
+              <div className="container-fluid">
                 <img src={logo} className="App-logo" alt="logo" />
                 <p>
                   Edit <code>src/App.js</code> and save to reload.
                 </p>
-                {this.mostraMensagem()}
+                {mostraMensagem()}
                 <a
                   className="App-link"
                   href="https://reactjs.org"
@@ -45,7 +44,6 @@ class App extends Component{
         <Footer></Footer>
       </div>
     );
-  }
 }
 
 export default App;

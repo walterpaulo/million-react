@@ -1,8 +1,7 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom'
 
-class Sidebar extends Component{
-  render(){
+const Sidebar = () =>{
     return (
       <ul className="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
         <Link className="sidebar-brand d-flex align-items-center justify-content-center" to="/">
@@ -40,6 +39,5 @@ class Sidebar extends Component{
       </ul>
     )
   }
-}
 
 export default Sidebar;

@@ -4,8 +4,7 @@ import Header from './shared/Header';
 import Footer from './shared/Footer';
 import Sidebar from './shared/Sidebar';
 
-class Componentes extends Component{
-  render(){
+const Componentes = ()=>{
     return (
       <div>
         <div className="App" id="wrapper">
@@ -23,6 +22,5 @@ class Componentes extends Component{
       </div>
     );
   }
-}
 
 export default Componentes;
